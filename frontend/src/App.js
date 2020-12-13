@@ -1,14 +1,32 @@
 import React from 'react';
 import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+
 import './App.css';
 
+//Test
+import { useEffect} from 'react';
+import {useSelector,useDispatch} from 'react-redux';
+import {getAllAsync,getByIdAsync} from './redux/quizz';
+
+
+
 function App() {
+  const all = useSelector(state=>state.quizz.all);
+  const dispatch =  useDispatch();
+
+  useEffect(()=>{
+    dispatch(getAllAsync());
+    dispatch(getByIdAsync(1));
+  },[dispatch]);
+  useEffect(()=>{
+    console.log(all);
+    //console.log(current);
+  },[all]);
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
+        
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
