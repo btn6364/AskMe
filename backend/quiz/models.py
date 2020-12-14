@@ -11,6 +11,16 @@ class Quiz(models.Model):
     class Meta:
         ordering = ["created_at"]
 
+
+# DB Model for the quiz's topic.
+class Topic(models.Model):
+    topic = models.CharField(max_length=20)
+    quizzes = models.ManyToManyField(Quiz, related_name="topics")
+
+    def __str__(self):
+        return f"Quiz topic: {self.topic}"
+
+
 # DB Model for questions.
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, related_name="questions", on_delete=models.CASCADE)
