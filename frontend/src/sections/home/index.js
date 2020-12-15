@@ -34,7 +34,7 @@ const Home = ()=>{
                 {quizzes
                 .filter((quizz)=>(quizz.title.toLowerCase().search(searchText.toLowerCase())!==-1))
                 .map(
-                (quizz,idx)=><Quizz quizz={quizz} id={idx} history={history}/>
+                (quizz)=><Quizz key={quizz.id} quizz={quizz} history={history}/>
                 )}
                 </Row>
             </Container>
@@ -43,7 +43,7 @@ const Home = ()=>{
 };
 export default Home;
 
-const Quizz = ({quizz,id, history})=>{
+const Quizz = ({quizz, history})=>{
     return (
     <Col xs={10} sm={5} md={4} xl={3}>
         <Card style={{ width: '18rem' }}>
@@ -52,10 +52,13 @@ const Quizz = ({quizz,id, history})=>{
             <Card.Title>{quizz.title}</Card.Title>
             <Button variant="primary"
                 onClick={()=>{
-                    history.push(`/quizzes/${id}`);
+                    history.push(`/quizzes/${quizz.id}`);
                 }}
             >Go to Quizz</Button>
             </Card.Body>
+            <Card.Footer>
+                Footer
+            </Card.Footer>
         </Card>
     </Col>
     )

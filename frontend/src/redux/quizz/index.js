@@ -21,7 +21,6 @@ const { getAll, getById } = quizzSlice.actions;
 export const getAllAsync = () => async(dispatch)=>{
     try{
         let result = await fetch(URL);
-        console.log(result);
         let data = await result.json();
         dispatch(getAll(data));
     }catch(err){
@@ -32,7 +31,6 @@ export const getAllAsync = () => async(dispatch)=>{
 export const getByIdAsync = (id) =>async (dispatch)=>{
     try{
         let result = await fetch(`${URL}${id}/`);
-        console.log(result);
         let data = await result.json();
         dispatch(getById(data));
     }catch(err){
