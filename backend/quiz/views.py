@@ -1,52 +1,34 @@
-from quiz.models import Quiz, Question, Choice
-from quiz.serializers import QuizSerializer, QuestionSerializer
-from django.http import Http404
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+from quiz.models import Quiz, Topic
+from quiz.serializers import QuizSerializer, TopicSerializer
+from rest_framework import generics
 
 
-class QuizList(APIView):
+class QuizList(generics.ListCreateAPIView):
     """
     List all quizzes, or create a new quiz.
     """
-    def get(self, request, format=None):
-        quizzes = Quiz.objects.all()
-        serializer = QuizSerializer(quizzes, many=True)
-        return Response(serializer.data)
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
 
-    def post(self, request, format=None):
-        serializer = QuizSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class QuizDetail(APIView):
+class QuizDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update or delete a quiz instance
     """
-    def get_object(self, pk):
-        try:
-            return Quiz.objects.get(pk=pk)
-        except Quiz.DoesNotExist:
-            raise Http404
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
 
-    def get(self, request, pk, format=None):
-        quiz = self.get_object(pk)
-        serializer = QuizSerializer(quiz)
-        return Response(serializer.data)
+class TopicList(generics.ListCreateAPIView):
+    """
+    List all available topics.
+    """
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
 
-    def put(self, request, pk, format=None):
-        quiz = self.get_object(pk)
-        serializer = QuizSerializer(quiz, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve, update or delete a topic instance
+    """
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
 
-    def delete(self, request, pk, format=None):
-        quiz = self.get_object(pk)
-        quiz.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
