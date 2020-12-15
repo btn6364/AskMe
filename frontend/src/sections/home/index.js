@@ -4,6 +4,7 @@ import { getAllAsync } from '../../redux/quizz';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import './index.scss';
 const Home = ()=>{
     const [searchText,setSearchText] = useState("");
     const dispatch = useDispatch();
@@ -16,8 +17,8 @@ const Home = ()=>{
     
     
     return(
-        <div>
-            <Form inline>
+        <div className="home">
+            <Form inline className="home-search">
                 <Form.Control 
                     value={searchText} 
                     type="text" 
@@ -29,7 +30,7 @@ const Home = ()=>{
 
                 <Button>Search</Button>
             </Form>
-            <Container fluid>
+            <Container fluid className="home__quizzes-container">
                 <Row>
                 {quizzes
                 .filter((quizz)=>(quizz.title.toLowerCase().search(searchText.toLowerCase())!==-1))
@@ -45,9 +46,8 @@ export default Home;
 
 const Quizz = ({quizz, history})=>{
     return (
-    <Col xs={10} sm={5} md={4} xl={3}>
+    <Col xs={10} sm={5} md={4} xl={3} className="quizz-card">
         <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
             <Card.Body>
             <Card.Title>{quizz.title}</Card.Title>
             <Button variant="primary"
@@ -56,8 +56,8 @@ const Quizz = ({quizz, history})=>{
                 }}
             >Go to Quizz</Button>
             </Card.Body>
-            <Card.Footer>
-                Footer
+            <Card.Footer className="quizz-card__footer">
+                {quizz.topics.map((topic)=><div className="quizz-card__tag" key={topic.id}>{topic.topic}</div>)}
             </Card.Footer>
         </Card>
     </Col>
