@@ -1,5 +1,5 @@
-from quiz.models import Quiz, Question, Choice
-from quiz.serializers import QuizSerializer, QuestionSerializer
+from quiz.models import Quiz, Topic
+from quiz.serializers import QuizSerializer, TopicSerializer
 from rest_framework import generics
 
 
@@ -17,13 +17,18 @@ class QuizDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
 
-class QuestionList(generics.ListCreateAPIView):
+class TopicList(generics.ListCreateAPIView):
     """
-    List all the questions, for a specific quiz.
+    List all available topics.
     """
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
 
-class QuestionDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
+class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve, update or delete a topic instance
+    """
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
+
+
