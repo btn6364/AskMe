@@ -1,0 +1,16 @@
+.home{
+    &__quizzes-container{
+        .quizz-card{
+            &__tag{
+                width: fit-content;
+                background:blue;
+                color:white;
+                padding:5px;
+                margin:3px;
+                border-radius: 1.2rem;
+                
+            }
+            
+        }
+    }
+}
