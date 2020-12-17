@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    
     'corsheaders',
     'quiz.apps.QuizConfig',
     'accounts.apps.AccountsConfig',
@@ -42,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'knox',
 ]
 
 MIDDLEWARE = [
@@ -56,11 +56,23 @@ MIDDLEWARE = [
 ]
 
 
-# CORS SET UP
+###########################
+## CORS HEADERS
+###########################
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
        'http://localhost:3000',
 )
+
+###########################
+## TOKEN AUTHENTICATION
+###########################
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        'knox.auth.TokenAuthentication',
+    ]
+}
+
 
 
 ROOT_URLCONF = 'backend.urls'
