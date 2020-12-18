@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-const URL=`http://127.0.0.1:8000/quizzes/`;
+import PATH from '../path';
+
 export const quizzSlice = createSlice({
     name:'quizz',
     initialState:{
@@ -20,7 +21,7 @@ const { getAll, getById } = quizzSlice.actions;
 
 export const getAllAsync = () => async(dispatch)=>{
     try{
-        let result = await fetch(URL);
+        let result = await fetch(PATH.quizz.getAll);
         let data = await result.json();
         dispatch(getAll(data));
     }catch(err){
@@ -30,7 +31,7 @@ export const getAllAsync = () => async(dispatch)=>{
 
 export const getByIdAsync = (id) =>async (dispatch)=>{
     try{
-        let result = await fetch(`${URL}${id}/`);
+        let result = await fetch(PATH.quizz.getById(id));
         let data = await result.json();
         dispatch(getById(data));
     }catch(err){
