@@ -1,25 +1,31 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from '../../redux/auth';
 import './index.scss';
 const SignIn = ()=>{
-    const [email,setEmail]=useState('');
+    const [username,setUsername]=useState('');
     const [password,setPassword]=useState('');
     const history=useHistory();
+    const dispatch = useDispatch();
+    const isAuthed = useSelector(state=>state.auth.isAuthed);
     const createOnChange = (fnc)=>{
         return (e)=>{
             fnc(e.target.value);
         }
     }
-    const onSuccess = ()=>{
-        try{
-            history.goBack();
-        }catch(err){
+    useEffect(() => {
+        if (isAuthed){//login success
             history.push('/');
-        }finally{}
-    }
+        }
+    }, [isAuthed, history]);
     const onSubmit = ()=>{
-        onSuccess();
+        let form={
+            username,
+            password
+        };
+        dispatch(login(form));
         //Do something
     }
     return(
@@ -27,14 +33,11 @@ const SignIn = ()=>{
             <Col sm={10} md={8} xl={6}>
                 <Form className="sign-in">
                     <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
+                        <Form.Label>Username</Form.Label>
                         <Form.Control 
-                            onChange={createOnChange(setEmail)}
-                            value={email}
-                            type="email" placeholder="Enter email" />
-                        <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                        </Form.Text>
+                            onChange={createOnChange(setUsername)}
+                            value={username}
+                            type="text" placeholder="Enter username" />
                     </Form.Group>
 
                     <Form.Group controlId="formBasicPassword">

@@ -4,7 +4,12 @@ const PATH={
         getAll:`${URL}/quizzes/`,
         getById: (id)=>`${URL}/quizzes/${id}/`
     },
-    auth:{}
+    auth:{
+        login:`${URL}/accounts/login`
+    },
+    user:{
+        register:`${URL}/accounts/register`
+    }
 }
 
 export default PATH;

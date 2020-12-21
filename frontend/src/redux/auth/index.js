@@ -41,11 +41,11 @@ export const getCurrentUser = () => async(dispatch)=>{
     }finally{}
 };
 
-export const AuthenticateToken = (token)=>async(dispatch)=>{
+export const authenticateToken = (token)=>async(dispatch)=>{
     try{
         //authenticate the token
         dispatch(setToken(token));
-        dispatch(getCurrentUser());
+        //dispatch(getCurrentUser());
         dispatch(setAuth(true));
     }catch(err){
         dispatch(logout());
@@ -53,11 +53,15 @@ export const AuthenticateToken = (token)=>async(dispatch)=>{
     }finally{}
 }
 
-export const Login = (email,password)=>async(dispatch)=>{
+export const login = (form)=>async(dispatch)=>{
     try{
-        //get token
-        let token='';
-        dispatch(AuthenticateToken(token));
+        let result = await fetch(PATH.auth.login,{
+            method:'POST',
+            body:form
+        });
+        let data = await result.json();
+        let token=data.token;
+        dispatch(authenticateToken(token));
     }catch(err){
         dispatch(logout());
         console.log(err);
